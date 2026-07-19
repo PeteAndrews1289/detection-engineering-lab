@@ -1,0 +1,61 @@
+{
+  "id": "ENDPOINT-LSASS-001",
+  "name": "Unusual process access to LSASS",
+  "status": "experimental",
+  "description": "Finds high-access Sysmon process-access events targeting LSASS from a non-system or non-Defender path. Legitimate security tools can still match and must be baselined.",
+  "log_source": {
+    "product": "windows",
+    "service": "sysmon",
+    "event_id": 10
+  },
+  "severity": "high",
+  "attack": {
+    "id": "T1003.001",
+    "name": "OS Credential Dumping: LSASS Memory",
+    "url": "https://attack.mitre.org/techniques/T1003/001/",
+    "mapping_condition": "Apply only when the process access is consistent with credential extraction from LSASS memory."
+  },
+  "query": {
+    "language": "spl",
+    "text": "index=<configured-index> sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational EventCode=10 TargetImage=\"*\\\\lsass.exe\" GrantedAccess IN (0x1010,0x1fffff)\n| where NOT like(lower(SourceImage), \"%\\\\windows\\\\system32\\\\%\") AND NOT like(lower(SourceImage), \"%\\\\program files\\\\microsoft defender\\\\%\")\n| table _time host User SourceImage TargetImage GrantedAccess CallTrace SourceProcessId\n| sort -_time"
+  },
+  "match": {
+    "all": [
+      {
+        "field": "EventCode",
+        "operator": "equals",
+        "value": 10
+      },
+      {
+        "field": "TargetImage",
+        "operator": "endswith",
+        "value": "\\lsass.exe"
+      },
+      {
+        "field": "GrantedAccess",
+        "operator": "in",
+        "values": [
+          "0x1010",
+          "0x1fffff"
+        ]
+      },
+      {
+        "field": "SourceImage",
+        "operator": "not_contains_any",
+        "values": [
+          "\\windows\\system32\\",
+          "\\program files\\microsoft defender\\"
+        ]
+      }
+    ]
+  },
+  "false_positives": [
+    "Endpoint security, debugging, or approved forensic tooling",
+    "Organization-specific credential providers or authentication agents"
+  ],
+  "triage": [
+    "Validate the source binary path, signer, hash, user, and process ancestry.",
+    "Review nearby authentication anomalies and suspicious process or file activity.",
+    "If compromise is supported, preserve evidence and rotate potentially exposed credentials."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "AWS-IAM-001",
+  "name": "Cloud IAM privilege expansion",
+  "status": "experimental",
+  "description": "Identifies AWS IAM API calls that can attach or replace permissions. A match is a review trigger, not proof of malicious privilege escalation.",
+  "log_source": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "severity": "high",
+  "attack": {
+    "id": "T1098.003",
+    "name": "Account Manipulation: Additional Cloud Roles",
+    "url": "https://attack.mitre.org/techniques/T1098/003/",
+    "mapping_condition": "Apply only when the change adds adversary-controlled or otherwise unauthorized cloud permissions."
+  },
+  "query": {
+    "language": "spl",
+    "text": "index=<configured-index> sourcetype=aws:cloudtrail eventSource=iam.amazonaws.com eventName IN (AttachUserPolicy,AttachRolePolicy,PutUserPolicy,PutRolePolicy,CreatePolicyVersion,SetDefaultPolicyVersion)\n| table _time recipientAccountId awsRegion eventName userIdentity.arn sourceIPAddress requestParameters.userName requestParameters.roleName requestParameters.policyArn errorCode\n| sort -_time"
+  },
+  "match": {
+    "all": [
+      {
+        "field": "eventSource",
+        "operator": "equals",
+        "value": "iam.amazonaws.com"
+      },
+      {
+        "field": "eventName",
+        "operator": "in",
+        "values": [
+          "AttachUserPolicy",
+          "AttachRolePolicy",
+          "PutUserPolicy",
+          "PutRolePolicy",
+          "CreatePolicyVersion",
+          "SetDefaultPolicyVersion"
+        ]
+      }
+    ]
+  },
+  "false_positives": [
+    "Approved role provisioning or policy deployment",
+    "Infrastructure-as-code reconciliation by an expected pipeline"
+  ],
+  "triage": [
+    "Confirm the actor, source, change ticket, and target principal.",
+    "Review the new effective permissions and whether they enable privilege escalation.",
+    "Correlate with authentication, policy enumeration, and subsequent resource access."
+  ]
+}

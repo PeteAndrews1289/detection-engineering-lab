@@ -1,0 +1,44 @@
+{
+  "id": "AWS-ROOT-001",
+  "name": "AWS root account API activity",
+  "status": "experimental",
+  "description": "Finds CloudTrail API activity attributed to the AWS account root identity. Root use should be rare but can be legitimate break-glass administration.",
+  "log_source": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "severity": "high",
+  "attack": {
+    "id": "T1078.004",
+    "name": "Valid Accounts: Cloud Accounts",
+    "url": "https://attack.mitre.org/techniques/T1078/004/",
+    "mapping_condition": "Apply only when investigation indicates unauthorized or compromised cloud-account use."
+  },
+  "query": {
+    "language": "spl",
+    "text": "index=<configured-index> sourcetype=aws:cloudtrail userIdentity.type=Root eventType=AwsApiCall\n| table _time recipientAccountId awsRegion eventSource eventName sourceIPAddress userAgent errorCode\n| sort -_time"
+  },
+  "match": {
+    "all": [
+      {
+        "field": "userIdentity.type",
+        "operator": "equals",
+        "value": "Root"
+      },
+      {
+        "field": "eventType",
+        "operator": "equals",
+        "value": "AwsApiCall"
+      }
+    ]
+  },
+  "false_positives": [
+    "Documented break-glass administration",
+    "Initial account setup that has been separately approved"
+  ],
+  "triage": [
+    "Verify whether root use was authorized and time-bounded.",
+    "Review MFA status, source network, user agent, and adjacent API calls.",
+    "Escalate unexplained activity and rotate root credentials according to the incident plan."
+  ]
+}

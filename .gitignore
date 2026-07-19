@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.coverage
+.DS_Store
+.venv/
+venv/
+
+# Raw exports do not belong in the public repository.
+raw/
+exports/
+*.log
+*.evtx

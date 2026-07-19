@@ -1,0 +1,86 @@
+{
+  "cases": [
+    {
+      "expected": [
+        "AWS-IAM-001"
+      ],
+      "false_negatives": [],
+      "false_positives": [],
+      "fixture_id": "aws-iam-suspicious",
+      "observed": [
+        "AWS-IAM-001"
+      ]
+    },
+    {
+      "expected": [
+        "AWS-ROOT-001"
+      ],
+      "false_negatives": [],
+      "false_positives": [],
+      "fixture_id": "aws-root-suspicious",
+      "observed": [
+        "AWS-ROOT-001"
+      ]
+    },
+    {
+      "expected": [],
+      "false_negatives": [],
+      "false_positives": [],
+      "fixture_id": "aws-iam-benign-read",
+      "observed": []
+    },
+    {
+      "expected": [],
+      "false_negatives": [],
+      "false_positives": [],
+      "fixture_id": "aws-service-event-benign",
+      "observed": []
+    },
+    {
+      "expected": [
+        "ENDPOINT-PS-001"
+      ],
+      "false_negatives": [],
+      "false_positives": [],
+      "fixture_id": "endpoint-powershell-suspicious",
+      "observed": [
+        "ENDPOINT-PS-001"
+      ]
+    },
+    {
+      "expected": [],
+      "false_negatives": [],
+      "false_positives": [],
+      "fixture_id": "endpoint-powershell-benign",
+      "observed": []
+    },
+    {
+      "expected": [
+        "ENDPOINT-LSASS-001"
+      ],
+      "false_negatives": [],
+      "false_positives": [],
+      "fixture_id": "endpoint-lsass-suspicious",
+      "observed": [
+        "ENDPOINT-LSASS-001"
+      ]
+    },
+    {
+      "expected": [],
+      "false_negatives": [],
+      "false_positives": [],
+      "fixture_id": "endpoint-lsass-benign",
+      "observed": []
+    }
+  ],
+  "catalog": {
+    "detection_count": 4,
+    "fixture_count": 8,
+    "observed_match_count": 4
+  },
+  "validation": {
+    "false_negative_count": 0,
+    "false_positive_count": 0,
+    "passed": true
+  }
+}

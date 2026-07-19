@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Detection engineering validation summary</title>
+  <desc id="desc">Four AWS and endpoint detections are exercised against eight synthetic fixtures with four expected matches and no fixture mismatches.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#173954"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" rx="28" fill="url(#background)"/>
+  <circle cx="1080" cy="75" r="180" fill="#39d0b5" opacity=".08"/>
+  <circle cx="80" cy="600" r="220" fill="#47a9ff" opacity=".08"/>
+  <text x="72" y="82" fill="#f4f8fb" font-family="system-ui, sans-serif" font-size="34" font-weight="700">Detection Engineering Lab</text>
+  <text x="72" y="118" fill="#a9bed0" font-family="system-ui, sans-serif" font-size="18">Executable hypotheses • synthetic evidence • honest scope</text>
+
+  <g font-family="system-ui, sans-serif" filter="url(#shadow)">
+    <g transform="translate(72 175)">
+      <rect width="240" height="154" rx="18" fill="#f6fbff"/>
+      <text x="24" y="56" fill="#0b2a3e" font-size="46" font-weight="750">4</text>
+      <text x="24" y="91" fill="#2d536b" font-size="18" font-weight="650">detections</text>
+      <text x="24" y="121" fill="#607c8e" font-size="14">CloudTrail + Sysmon</text>
+    </g>
+    <g transform="translate(336 175)">
+      <rect width="240" height="154" rx="18" fill="#f6fbff"/>
+      <text x="24" y="56" fill="#0b2a3e" font-size="46" font-weight="750">8</text>
+      <text x="24" y="91" fill="#2d536b" font-size="18" font-weight="650">fixtures</text>
+      <text x="24" y="121" fill="#607c8e" font-size="14">malicious + benign</text>
+    </g>
+    <g transform="translate(600 175)">
+      <rect width="240" height="154" rx="18" fill="#f6fbff"/>
+      <text x="24" y="56" fill="#0b2a3e" font-size="46" font-weight="750">4</text>
+      <text x="24" y="91" fill="#2d536b" font-size="18" font-weight="650">expected matches</text>
+      <text x="24" y="121" fill="#607c8e" font-size="14">versioned results</text>
+    </g>
+    <g transform="translate(864 175)">
+      <rect width="264" height="154" rx="18" fill="#eafff8" stroke="#39d0b5"/>
+      <text x="24" y="56" fill="#0d4a40" font-size="46" font-weight="750">0</text>
+      <text x="24" y="91" fill="#286a5e" font-size="18" font-weight="650">fixture mismatches</text>
+      <text x="24" y="121" fill="#58877e" font-size="14">not a production metric</text>
+    </g>
+  </g>
+
+  <g transform="translate(72 395)" font-family="system-ui, sans-serif">
+    <rect width="1056" height="122" rx="18" fill="#102b41" stroke="#426984"/>
+    <text x="28" y="42" fill="#dff1ff" font-size="18" font-weight="700">Validation contract</text>
+    <text x="28" y="76" fill="#a9bed0" font-size="16">Detection metadata + SPL + conditional ATT&amp;CK mapping + false positives + triage</text>
+    <text x="28" y="102" fill="#a9bed0" font-size="16">→ dependency-free matching → expected/observed comparison → CI evidence check</text>
+  </g>
+  <text x="72" y="572" fill="#9eb5c8" font-family="system-ui, sans-serif" font-size="15">Synthetic portfolio evidence • no raw enterprise telemetry or live payloads</text>
+</svg>

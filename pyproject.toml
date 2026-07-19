@@ -1,0 +1,9 @@
+[project]
+name = "detection-engineering-lab"
+version = "0.1.0"
+description = "Dependency-free validation harness for portfolio detection hypotheses"
+requires-python = ">=3.10"
+license = "MIT"
+
+[tool.coverage.run]
+source = ["tools"]

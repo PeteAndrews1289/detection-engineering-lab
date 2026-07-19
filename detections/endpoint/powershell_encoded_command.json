@@ -1,0 +1,58 @@
+{
+  "id": "ENDPOINT-PS-001",
+  "name": "Suspicious PowerShell command features",
+  "status": "experimental",
+  "description": "Identifies process creation for PowerShell with encoded-command or remote-content indicators. Administrative scripts can use the same features and require contextual review.",
+  "log_source": {
+    "product": "windows",
+    "service": "sysmon",
+    "event_id": 1
+  },
+  "severity": "medium",
+  "attack": {
+    "id": "T1059.001",
+    "name": "Command and Scripting Interpreter: PowerShell",
+    "url": "https://attack.mitre.org/techniques/T1059/001/",
+    "mapping_condition": "Apply when PowerShell is used for adversary execution, not merely because powershell.exe ran."
+  },
+  "query": {
+    "language": "spl",
+    "text": "index=<configured-index> sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational EventCode=1 Image=\"*\\\\powershell.exe\"\n| search CommandLine=\"*-enc*\" OR CommandLine=\"*EncodedCommand*\" OR CommandLine=\"*FromBase64String*\" OR CommandLine=\"*DownloadString*\" OR CommandLine=\"*Invoke-WebRequest*\"\n| table _time host User ParentImage Image CommandLine ProcessId ParentProcessId\n| sort -_time"
+  },
+  "match": {
+    "all": [
+      {
+        "field": "EventCode",
+        "operator": "equals",
+        "value": 1
+      },
+      {
+        "field": "Image",
+        "operator": "endswith",
+        "value": "\\powershell.exe"
+      }
+    ],
+    "any": [
+      {
+        "field": "CommandLine",
+        "operator": "contains_any",
+        "values": [
+          "-enc ",
+          "-encodedcommand",
+          "frombase64string",
+          "downloadstring",
+          "invoke-webrequest"
+        ]
+      }
+    ]
+  },
+  "false_positives": [
+    "Approved software deployment or endpoint-management scripts",
+    "Administrator troubleshooting that retrieves a known internal resource"
+  ],
+  "triage": [
+    "Preserve the complete command line and parent-child process chain.",
+    "Decode content in an isolated analysis environment without executing it.",
+    "Correlate file, DNS, network, scheduled-task, and account activity on the host."
+  ]
+}
